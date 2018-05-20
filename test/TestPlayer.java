@@ -18,8 +18,8 @@ public class TestPlayer extends Test {
         GameProxy g = new GameProxy(minimalGame());
         Player p = g.getPlayer(0);
         PlayerProxy p_p = new PlayerProxy(p);
-        t.check(assertThat(5, p_p.hand.size()));
-        t.check(assertThat(5, p_p.draw.size()));
+        t.check( p_p.hand.size() ==5 );
+        t.check((p_p.draw.size() == 5));
     }
 
     private static void testIncrements(Test t) {
@@ -29,19 +29,19 @@ public class TestPlayer extends Test {
         p_p.clear();
         // Actions
         p.incrementActions(2);
-        t.check(assertThat(2,p_p.getActions()));
+        t.check(p_p.getActions()==2);
         p.incrementActions(-1);
-        t.check(assertThat(1,p_p.getActions()));
+        t.check(p_p.getActions()== 1);
         // Money
         p.incrementMoney(2);
-        t.check(assertThat(2,p_p.getMoney()));
+        t.check(p_p.getMoney()==2);
         p.incrementMoney(-1);
-        t.check(assertThat(1,p_p.getMoney()));
+        t.check(p_p.getMoney()==1);
         // Buys
         p.incrementBuys(2);
-        t.check(assertThat(2,p_p.getBuys()));
+        t.check(p_p.getBuys()==2);
         p.incrementBuys(-1);
-        t.check(assertThat(1,p_p.getBuys()));
+        t.check(p_p.getBuys() == 1);
     }
 
     private static void testDrawCard(Test t) {
@@ -53,18 +53,18 @@ public class TestPlayer extends Test {
         p_p.clear();
         p_p.addToDraw(Copper.class, 2);
         t.check(p.drawCard().getName().equals("Copper"));
-        t.check(p_p.draw.size() == 1);
+        t.check(assertThat(1,p_p.draw.size()));
 
         //test que le drawCard, lorsque la pioche est vide, transfère le discard vers le draw, puis pioche
         p_p.clear();
         p_p.addToDiscard(Copper.class, 3);
         t.check(p.drawCard().getName().equals("Copper"));
-        t.check(p_p.discard.size() == 0);
-        t.check(p_p.draw.size() == 2);
+        t.check(assertThat(0,p_p.discard.size()));
+        t.check(assertThat(2,p_p.draw.size()));
 
         //test quand aucune carte, ni dans draw ni dans discard
         p_p.clear();
-        t.check(p.drawCard() == null);
+        t.check(assertThat(null,p.drawCard()));
     }
 
     private static void testCardsInHand(Test t) {
@@ -150,14 +150,13 @@ public class TestPlayer extends Test {
         p_p.clear();
         p_p.addToHand(Copper.class, 1);
         p_p.playCard("Copper");
-        t.check(p_p.hand.size() == 0);
-        t.check(p_p.inPlay.size() == 1);
-
+        t.check(assertThat(0,p_p.hand.size()));
+        t.check(assertThat(1,p_p.inPlay.size()));
         p_p.clear();
         p_p.addToHand(Copper.class, 1);
         p_p.playCard("Blob");
-        t.check(p_p.hand.size() == 1);
-        t.check(p_p.inPlay.size() == 0);
+        t.check(assertThat(1,p_p.hand.size()));
+        t.check(assertThat(0,p_p.inPlay.size()));
     }
 
     private static void testGain(Test t) {
@@ -166,8 +165,8 @@ public class TestPlayer extends Test {
         PlayerProxy p_p = new PlayerProxy(p);
         p_p.clear();
         p.gain("Silver");
-        t.check(p_p.discard.size() == 1);
-        t.check(g.getSupplyStack("Silver").size() == 39);
+        t.check(assertThat(1,p_p.discard.size()));
+        t.check(assertThat(39, g.getSupplyStack("Silver").size()));
     }
 
     private static void testBuyCard(Test t) {
@@ -221,7 +220,7 @@ public class TestPlayer extends Test {
 	    this.runTest("Liste de toutes les cartes", TestPlayer::testTotalCards);
 	    this.runTest("Points de victoire", TestPlayer::testVictoryPoints);
 	    this.runTest("Cartes Trésor en main", TestPlayer::testGetTreasureCards);
-	    //this.runTest("Jouer une carte", TestPlayer::testPlayCard);
+	    this.runTest("Jouer une carte", TestPlayer::testPlayCard);
 	    this.runTest("Gagner une carte", TestPlayer::testGain);
 		this.runTest("Acheter une carte", TestPlayer::testBuyCard);
 		this.runTest("Acheter une carte trop chère", TestPlayer::testBuyCardTooExpensive);

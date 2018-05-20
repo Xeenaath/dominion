@@ -188,12 +188,25 @@ public class Game {
 	 * premier).
 	 */
 	public List<Player> otherPlayers(Player p) {
-		List<Player> otherPlayers = new ArrayList<Player>();
+		/*List<Player> otherPlayers = new ArrayList<Player>();
 		int i = indexOfPlayer(p)+1;
 		while (this.players[i] != p) {
+			System.out.println("OKAY 1");
 			if (this.players[i] == null) {
+				System.out.println("OKAY 2");
 				i = 0;
 			}
+			otherPlayers.add(this.players[i]);
+			i++;
+		}
+		return otherPlayers;*/
+		List<Player> otherPlayers = new ArrayList<Player>();
+		int indicePlayer = indexOfPlayer(p);
+		for (int i = indicePlayer+1; i < this.players.length; i++ ){
+			otherPlayers.add(this.players[i]);
+
+		}
+		for (int i = 0; i < indicePlayer; i++){
 			otherPlayers.add(this.players[i]);
 		}
 		return otherPlayers;
@@ -211,6 +224,7 @@ public class Game {
 		for ( CardList cardList : this.supplyStacks) {
 			cartesDispo.add(cardList.get(0));
 		}
+		//System.out.println(cartesDispo);
 		return cartesDispo;
 	}
 	
@@ -249,9 +263,9 @@ public class Game {
 	 * ne correspond
 	 */
 	public Card getFromSupply(String cardName) {
-		System.out.println(this.supplyStacks);
+		//System.out.println(this.supplyStacks);
 		for (CardList cardList : this.supplyStacks) {
-			if (cardList.getCard(cardName) == null) {
+			if (cardList.getCard(cardName) != null) {
 				return cardList.getCard(cardName);
 			}
 		}
@@ -289,7 +303,7 @@ public class Game {
 	 * c'est que la partie est terminée)
 	 */
 	public boolean isFinished() {
-		if (this.supplyStacks.size() <=14){
+		if (this.supplyStacks.size() <= 14){
 			return true;
 		}
 		this.availableSupplyCards();

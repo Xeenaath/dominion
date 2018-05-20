@@ -4,6 +4,14 @@ import dominion.card.*;
 import java.util.*;
 
 public class TestGame extends Test {
+	private static boolean assertThat(Object expected, Object actual) {
+		boolean isSame = expected == actual;
+		if (!isSame) {
+			System.err.println("Expected : " + expected);
+			System.err.println("Actual : " + actual);
+		}
+		return isSame;
+	}
 
 	private static void testNbPlayers(Test t) {
 		Game g = minimalGame();
@@ -19,7 +27,7 @@ public class TestGame extends Test {
 	private static void testOtherPlayersSize(Test t) {
 		Game g = minimalGame();
 		Player p = g.getPlayer(1);
-		t.check(g.otherPlayers(p).size() == 2);
+		t.check(assertThat(2,g.otherPlayers(p).size()));
 	}
 
 	private static void testOtherPlayersNames(Test t) {
@@ -74,7 +82,7 @@ public class TestGame extends Test {
 	private static void testNbAvailableSupplies(Test t) {
 		Game g = minimalGame();
 		CardList availableSupplies = g.availableSupplyCards();
-		t.check(availableSupplies.size() == 7);
+		t.check(availableSupplies.size()==7);
 		for (int i=0; i<12; i++) {
 			g.removeFromSupply("Estate");
 		}

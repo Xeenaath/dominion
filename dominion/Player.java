@@ -7,6 +7,7 @@ import dominion.card.*;
 /**
  * Un joueur de Dominion
  */
+
 public class Player {
     private final int NUMBER_OF_ESTATE_CARDS =7;
     private final int NUMBER_OF_COPPER_CARDS = 3;
@@ -330,7 +331,7 @@ public class Player {
     public void playCard(String cardName) {
         for (Card card : this.hand) {
             if (card.getName().equals(cardName)) {
-                playCard(cardName);
+                card.play(this);
                 break;
             }
         }
@@ -385,7 +386,6 @@ public class Player {
      */
     public Card buyCard(String cardName) {
         Card card = this.getGame().getFromSupply(cardName);
-
         if(card != null && this.buys > 0 && this.money >= card.getCost()){
             this.incrementMoney(-card.getCost());
             this.buys -= 1;
