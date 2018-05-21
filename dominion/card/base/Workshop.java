@@ -15,12 +15,19 @@ public class Workshop extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Workshop(String name, int cost) {
-        super("Atelier", 3);
+    public Workshop() {
+        super("Workshop", 3);
     }
 
     @Override
     public void play(Player p) {
-
+        boolean done = false;
+        while (!done){
+            String chosenCard = p.chooseCard("Choississez une carte qui vaut moins de 5 pièces :", p.getGame().availableSupplyCards(),false);
+            if (p.getGame().getFromSupply(chosenCard).getCost() <=4) {
+                p.gain(chosenCard);
+                done = true;
+            }
+        }
     }
 }

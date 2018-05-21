@@ -16,12 +16,21 @@ public class Bureaucrat extends AttackCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Bureaucrat(String name, int cost) {
-        super("Bureaucrate", 4);
+    public Bureaucrat() {
+        super("Bureaucrat", 4);
     }
 
     @Override
     public void play(Player p) {
-
+        p.placeCardOnDraw("Silver");
+        for (int i = 0; i < p.getGame().numberOfPlayers(); i++){
+            Player player = p.getGame().getPlayer(i);
+            if (player != p){
+                String answer = player.chooseCard("choississez une carte victoire à dévoiler :", player.getVictoryCards(), false);
+                if (!answer.equals("")) {
+                    player.moveCardFromHandToDraw(player.cardsInHand().getCard(answer));
+                }
+            }
+        }
     }
 }

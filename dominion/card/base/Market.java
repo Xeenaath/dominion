@@ -18,13 +18,13 @@ public class Market extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Market(String name, int cost) {
-        super("Marché", 5);
+    public Market() {
+        super("Market", 5);
     }
 
     @Override
     public void play(Player p) {
-        p.drawCard();
+        p.draw(1);
         p.incrementActions(1);
         p.incrementBuys(1);
         p.incrementMoney(1);

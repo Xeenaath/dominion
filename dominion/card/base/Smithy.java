@@ -15,14 +15,12 @@ public class Smithy extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Smithy(String name, int cost) {
-        super("Forgeron", 4);
+    public Smithy() {
+        super("Smithy", 4);
     }
 
     @Override
     public void play(Player p) {
-        p.drawCard();
-        p.drawCard();
-        p.drawCard();
+       p.draw(3);
     }
 }

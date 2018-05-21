@@ -75,7 +75,7 @@ public class Game {
         this.supplyStacks = new ArrayList<CardList>();// à faire avec actions + cartes à gauche
 
 
-        this.trashedCards = new CardList();
+
         CardList gold = new CardList();
         CardList silver = new CardList();
         CardList copper = new CardList();
@@ -142,6 +142,7 @@ public class Game {
         this.supplyStacks.add(estate);
         this.supplyStacks.add(duchy);
         this.supplyStacks.add(curse);
+        this.trashedCards = new CardList();
     }
 
     /**
@@ -354,5 +355,23 @@ public class Game {
             Player p = this.players[i];
             System.out.println(String.format("%s: %d Points.\n%s\n", p.getName(), p.victoryPoints(), p.totalCards().toString()));
         }
+    }
+
+    /**
+     * Lit une ligne de l'entrée standard
+     * <p>
+     * C'est cette méthode qui doit être appelée à chaque fois qu'on veut lire
+     * l'entrée clavier de l'utilisateur (par exemple dans Player.choose), ce
+     * qui permet de n'avoir qu'un seul Scanner pour tout le programme
+     *
+     * @return une chaîne de caractères correspondant à la ligne suivante de
+     * l'entrée standard (sans le retour à la ligne final)
+     */
+    public String readLine() {
+        return this.scanner.nextLine();
+    }
+
+    public void trashCard (Card card) {
+        this.trashedCards.add(card);
     }
 }

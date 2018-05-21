@@ -16,8 +16,8 @@ public class Witch extends AttackCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Witch(String name, int cost) {
-        super("Sorcière", 5);
+    public Witch() {
+        super("Witch", 5);
     }
 
     @Override

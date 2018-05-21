@@ -16,12 +16,13 @@ public class Laboratory extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Laboratory(String name, int cost) {
-        super("Laboratoire", 5);
+    public Laboratory() {
+        super("Laboratory", 5);
     }
 
     @Override
     public void play(Player p) {
-
+        p.draw(2);
+        p.incrementActions(1);
     }
 }

@@ -16,8 +16,8 @@ public class Remodel extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Remodel(String name, int cost) {
-        super("Rénovation", 4);
+    public Remodel() {
+        super("Remodel", 4);
     }
 
     @Override

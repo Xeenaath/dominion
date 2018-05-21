@@ -16,12 +16,14 @@ public class Moat extends ReactionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Moat(String name, int cost) {
-        super("Douves", 4);
+    public Moat() {
+        super("Moat", 4);
     }
 
     @Override
     public void play(Player p) {
+        System.out.println("dedans");
+       p.draw(2);
 
     }
 }

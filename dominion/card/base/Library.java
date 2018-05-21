@@ -21,6 +21,8 @@ public class Library extends ActionCard {
 
     @Override
     public void play(Player p) {
-
+        while (p.cardsInHand().size() < 7){
+            p.drawCard();
+            }
     }
 }

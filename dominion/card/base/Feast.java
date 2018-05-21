@@ -16,8 +16,8 @@ public class Feast extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Feast(String name, int cost) {
-        super("Festin", 4);
+    public Feast() {
+        super("Feast", 4);
     }
 
     @Override

@@ -17,8 +17,8 @@ public class CouncilRoom extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public CouncilRoom(String name, int cost) {
-        super("Chambre du conseil", 5);
+    public CouncilRoom() {
+        super("Council Room", 5);
     }
 
     @Override

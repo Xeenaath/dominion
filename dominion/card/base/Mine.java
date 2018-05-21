@@ -15,7 +15,7 @@ public class Mine extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Mine(String name, int cost) {
+    public Mine() {
         super("Mine", 5);
     }
 

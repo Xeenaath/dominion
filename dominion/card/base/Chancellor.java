@@ -16,12 +16,16 @@ public class Chancellor extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Chancellor(String name, int cost) {
-        super("Chancelier", 3);
+    public Chancellor() {
+        super("Chancellor", 3);
     }
 
     @Override
     public void play(Player p) {
-
+        p.incrementMoney(2);
+        String answer = p.choose("Défausser votre deck ? (y/n) : ",  Arrays.asList("y", "n"), false);
+        if (answer.equals("y")){
+            p.discardDraw();
+        }
     }
 }

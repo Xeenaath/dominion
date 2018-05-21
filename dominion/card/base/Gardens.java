@@ -15,12 +15,18 @@ public class Gardens extends VictoryCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Gardens(String name, int cost) {
+    public Gardens() {
         super("Jardin", 4);
     }
 
     @Override
     public void play(Player p) {
+        //Do nothing
+    }
 
+    @Override
+    public int victoryValue(Player p) {
+        int points = p.totalCards().size() / 10;
+        return points;
     }
 }

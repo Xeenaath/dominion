@@ -1,12 +1,13 @@
 package test;
 
-import java.io.*;
-import java.util.*;
-import java.util.function.Consumer;
+import dominion.card.Card;
+import dominion.card.CardList;
 
-import dominion.*;
-import dominion.card.*;
-import dominion.card.base.*;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class Test {
 	/**
@@ -30,6 +31,11 @@ public abstract class Test {
 	private boolean testOk;
 
 	/**
+	 * Affichage de résultat de tous les tests passés
+	 */
+	private StringBuilder results = new StringBuilder();
+
+	/**
 	 * Vérifie une condition, et modifie éventuellement l'état de succès du test
 	 * @param test: condition à tester
 	 */
@@ -51,25 +57,23 @@ public abstract class Test {
 	 *                     les attributs sont modifiés en fonction du succès des vérifications)
 	 */
 	public void runTest(String description, Consumer<Test> test_function) {
-		System.out.print(description + " : ");
+		this.results.append(description + " : ");
 		this.testOk = true;
 		try {
 			test_function.accept(this);
 			if (this.testOk) {
 				// succès
-				System.out.println("[OK]");
+				this.results.append("[OK]\n");
 				this.nb_pass += 1;
 			}
 			else {
 				// échec
-				System.out.println("[ÉCHEC]");
+				this.results.append("[ÉCHEC]\n");
 				this.nb_fail += 1;
 			}
 		} catch (Exception e) {
 			// exception levée
-			System.out.println(e);
-			e.printStackTrace();
-			System.out.println("[ERREUR]");
+			this.results.append("[ERREUR]\n");
 			this.nb_error += 1;
 		}
 	}
@@ -82,14 +86,18 @@ public abstract class Test {
 	/**
 	 * Représentation globale des résultats du jeu de tests
 	 */
-	public String toString() {
-		return	"Tests effectués : " + this.nb_test() + "\n" +
-				"Succès : " + this.nb_pass + "\n" +
-				"Échecs : " + nb_fail + "\n" +
-				"Erreurs : " + nb_error + "\n";
+	public void showResults() {
+		System.out.println();
+		System.out.println("----");
+		System.out.println(this.results);
+		System.out.println("----");
+		System.out.println("Tests effectués : " + this.nb_test());
+		System.out.println("Succès : " + this.nb_pass);
+		System.out.println("Échecs : " + nb_fail);
+		System.out.println("Erreurs : " + nb_error);
 	}
 
-	/*** Méthodes statiques ***/
+	/* Méthodes statiques */
 	
 	/**
 	 * Convertit une CardList en liste de chaînes de caractères (les noms des
@@ -118,15 +126,17 @@ public abstract class Test {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Teste si une CardList contient exactement les cartes indiquées dans la
 	 * chaîne `namesString` (noms de cartes séparées par des virgules). Les deux
 	 * listes doivent avoir les mêmes éléments, avec les mêmes multiplicités
 	 * mais l'ordre n'a pas d'importance.
 	 */
-	public static boolean hasCards(CardList cards, String namesString) {
-		String[] names = namesString.split(",\\s*");
+	public static boolean hasCards(CardList cards, String... names) {
+		if (cards.size() != names.length) {
+			return false;
+		}
 		Arrays.sort(names);
 		String[] cardNames = cardsToString(cards);
 		Arrays.sort(cardNames);
@@ -145,42 +155,6 @@ public abstract class Test {
 	public static boolean hasThisCard(CardList cards, String name) {
 		List<String> l = Arrays.asList(cardsToString(cards));
 		return l.contains(name);
-	}
-
-	/**
-	 * Renvoie une instance de Game correspondant à un jeu à 3 joueurs utilisant
-	 * les cartes Kingdom
-	 * - Village
-	 * - Woodcutter
-	 * - Gardens
-	 * - Moneylender
-	 * - Smithy
-	 * - Council Room
-	 * - Festival
-	 * - Laboratory
-	 * - Market
-	 * - Witch
-	 */
-	public static Game defaultGame() {
-		String[] player_names = new String[]{"Toto", "Titi", "Tutu"};
-		List<CardList> kingdomStacks = new ArrayList<>();
-		kingdomStacks.add(makeStack(Village.class, 10));
-		kingdomStacks.add(makeStack(Woodcutter.class, 10));
-		kingdomStacks.add(makeStack(Gardens.class, 10));
-		kingdomStacks.add(makeStack(Moneylender.class, 10));
-		kingdomStacks.add(makeStack(Smithy.class, 10));
-		kingdomStacks.add(makeStack(CouncilRoom.class, 10));
-		kingdomStacks.add(makeStack(Festival.class, 10));
-		kingdomStacks.add(makeStack(Laboratory.class, 10));
-		kingdomStacks.add(makeStack(Market.class, 10));
-		kingdomStacks.add(makeStack(Witch.class, 10));
-		return new Game(player_names, kingdomStacks);
-	}
-
-	public static Game minimalGame() {
-		String[] player_names = new String[]{"Toto", "Titi", "Tutu"};
-		List<CardList> kingdomStacks = new ArrayList<>();
-		return new Game(player_names, kingdomStacks);
 	}
 
 	/**

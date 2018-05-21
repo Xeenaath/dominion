@@ -16,8 +16,8 @@ public class Moneylender extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Moneylender(String name, int cost) {
-        super("Prêteur sur gages", 4);
+    public Moneylender() {
+        super("Moneylender", 4);
     }
 
     @Override

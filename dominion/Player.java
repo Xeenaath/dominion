@@ -439,7 +439,7 @@ public class Player {
     public String choose(String instruction, List<String> choices, boolean canPass) {
         // La liste de choix est convertie en ensemble pour éviter les doublons
         Set<String> choiceSet = new HashSet<String>();
-        for (String c : choices) {
+        for (String c: choices) {
             choiceSet.add(c);
         }
         if (choiceSet.isEmpty()) {
@@ -449,7 +449,6 @@ public class Player {
             // Un seul choix possible (renvoyer cet unique élément)
             return choiceSet.iterator().next();
         } else {
-            Scanner sc = new Scanner(System.in);
             String input;
             // Lit l'entrée de l'utilisateur jusqu'à obtenir un choix valide
             while (true) {
@@ -464,8 +463,8 @@ public class Player {
                 System.out.println(">>> " + instruction);
                 System.out.print("> ");
                 // lit l'entrée de l'utilisateur au clavier
-                input = sc.nextLine();
-                if (choiceSet.contains(input) || (canPass && input.equals(""))) {
+                input = this.game.readLine();
+                if (choiceSet.contains(input) || (canPass && input.equals(""))){
                     // si une réponse valide est obtenue, elle est renvoyée
                     return input;
                 }
@@ -538,10 +537,50 @@ public class Player {
         this.buys = 0;
         this.discard.addAll(this.hand);
         this.discard.addAll(this.inPlay);
-        for (int i = 0; i < 5; i++) {
+        this.draw(5);
+    }
+
+    public void draw (int numberOfCards){
+        for (int i = 0; i < numberOfCards; i++){
             this.hand.add(this.drawCard());
         }
     }
+
+    public void discardFromHand (String cardName){
+        Card card = this.hand.getCard(cardName);
+        if (card != null) {
+            this.discard.add(card);
+            this.hand.remove(card);
+        }
+    }
+
+    public void trashFromHand (String cardName) {
+        Card card = this.hand.getCard(cardName);
+        if (card != null) {
+            this.game.trashCard(card);
+            this.hand.remove(card);
+        }
+    }
+
+    public void discardDraw () {
+        this.discard.addAll(this.draw);
+        this.draw.clear();
+    }
+
+    public void moveCardFromHandToDraw (Card card){
+        if (this.hand.remove(card)){
+            this.draw.add(card);
+        }
+    }
+
+    public void placeCardOnDraw (String cardName){
+        Card card = this.getGame().getFromSupply(cardName);
+        if (card != null) {
+            this.getGame().removeFromSupply(cardName);
+            this.draw.add(0,card);
+        }
+    }
+
 
     /**
      * Exécute le tour d'un joueur

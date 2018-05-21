@@ -16,12 +16,11 @@ public class Militia extends AttackCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Militia(String name, int cost) {
-        super("Milice", 4);
+    public Militia() {
+        super("Militia", 4);
     }
 
     @Override
     public void play(Player p) {
-
     }
 }

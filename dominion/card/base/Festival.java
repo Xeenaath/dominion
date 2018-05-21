@@ -17,13 +17,14 @@ public class Festival extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Festival(String name, int cost) {
+    public Festival() {
         super("Festival", 5);
     }
 
     @Override
     public void play(Player p) {
-
-
+        p.incrementActions(2);
+        p.incrementBuys(1);
+        p.incrementMoney(2);
     }
 }

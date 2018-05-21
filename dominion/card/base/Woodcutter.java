@@ -16,8 +16,8 @@ public class Woodcutter extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Woodcutter(String name, int cost) {
-        super("Bûcheron", 3);
+    public Woodcutter() {
+        super("Woodcutter", 3);
     }
 
     @Override
