@@ -536,7 +536,9 @@ public class Player {
         this.actions = 0;
         this.buys = 0;
         this.discard.addAll(this.hand);
+        this.hand.clear();
         this.discard.addAll(this.inPlay);
+        this.inPlay.clear();
         this.draw(5);
     }
 
