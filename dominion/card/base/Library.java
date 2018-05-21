@@ -15,14 +15,23 @@ public class Library extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Library(String name, int cost) {
-        super("Bibliothèque", 5);
+    public Library() {
+        super("Library", 5);
     }
 
     @Override
     public void play(Player p) {
-        while (p.cardsInHand().size() < 7){
-            p.drawCard();
+        while (p.cardsInHand().size() <= 7){
+           CardList drawnCards = p.draw(1);
+           Card card = drawnCards.get(0);
+            if (card instanceof ActionCard) {
+                String yesNo = p.choose("Mettre de côté ? (y/n) :",   Arrays.asList("y", "n"), false);
+                if (yesNo.equals("y")){
+                    p.discardFromHand(card.getName());
+                }
+            } else {
+
             }
+        }
     }
 }

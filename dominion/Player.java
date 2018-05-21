@@ -540,10 +540,14 @@ public class Player {
         this.draw(5);
     }
 
-    public void draw (int numberOfCards){
+    public CardList draw (int numberOfCards){
+        CardList drawnCards = new CardList();
         for (int i = 0; i < numberOfCards; i++){
-            this.hand.add(this.drawCard());
+            Card card = this.drawCard();
+            this.hand.add(card);
+            drawnCards.add(card);
         }
+        return drawnCards;
     }
 
     public void discardFromHand (String cardName){
@@ -581,13 +585,41 @@ public class Player {
         }
     }
 
-    public void placeCardOnHand (String cardName){
+    public void moveCardFromSupplyToHand(String cardName){
         Card card = this.getGame().getFromSupply(cardName);
         if (card != null) {
             this.getGame().removeFromSupply(cardName);
             this.hand.add(card);
         }
     }
+
+    public void placeCardOnHand (Card card){
+        if (card != null) {
+            this.hand.add(card);
+        }
+    }
+
+
+
+    public void placeCardOnTopOfDraw (Card card){
+        if (card != null) {
+            this.draw.add(0,card);
+        }
+    }
+
+    public void placeCardInDiscard (Card card) {
+        if (card != null) {
+            this.discard.add(card);
+        }
+    }
+
+    public Card gainCardFromTrash (String cardName) {
+        Card card = getGame().removeFromTrash(cardName);
+        this.gain(card);
+        return card;
+    }
+
+
 
 
     /**

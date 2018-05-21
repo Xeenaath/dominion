@@ -1,7 +1,5 @@
 package dominion.card.base;
 
-import java.util.*;
-
 import dominion.*;
 import dominion.card.*;
 
@@ -34,7 +32,7 @@ public class Mine extends ActionCard {
                     if (!chosenCard.equals("")) {
                         Card card = p.getGame().getFromSupply(chosenCard);
                         if (card.getCost() <= treasureCardToTrash.getCost() + 3) {
-                            p.placeCardOnHand(chosenCard);
+                            p.moveCardFromSupplyToHand(chosenCard);
                             p.trashFromHand(treasureCardName);
                             done = true;
                             done2 = true;

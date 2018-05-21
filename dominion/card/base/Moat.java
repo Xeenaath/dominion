@@ -22,8 +22,8 @@ public class Moat extends ReactionCard {
 
     @Override
     public void play(Player p) {
-        System.out.println("dedans");
        p.draw(2);
+
 
     }
 }

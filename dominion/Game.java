@@ -387,4 +387,14 @@ public class Game {
     public void trashCard(Card card) {
         this.trashedCards.add(card);
     }
+
+    public CardList getLastXCardsFromTrash (int x){
+       return  new CardList(this.trashedCards.subList(this.trashedCards.size()-x,this.trashedCards.size()));
+    }
+
+    public Card removeFromTrash (String cardName){
+        return this.trashedCards.remove(cardName);
+    }
+
+
 }

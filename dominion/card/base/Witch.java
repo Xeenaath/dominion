@@ -12,9 +12,6 @@ import dominion.card.*;
 public class Witch extends AttackCard {
     /**
      * Constructeur simple
-     *
-     * @param name le nom de la carte
-     * @param cost le coût de la carte
      */
     public Witch() {
         super("Witch", 5);
@@ -22,9 +19,12 @@ public class Witch extends AttackCard {
 
     @Override
     public void play(Player p) {
+        super.play(p);
         p.draw(2);
         for (Player otherplayer : p.getGame().otherPlayers(p)){
-            otherplayer.gain("Curse");
+            if (!this.protectedPlayers.contains(otherplayer)){
+                otherplayer.gain("Curse");
+            }
         }
     }
 }

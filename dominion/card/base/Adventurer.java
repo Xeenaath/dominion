@@ -1,5 +1,4 @@
 package dominion.card.base;
-import java.util.*;
 import dominion.*;
 import dominion.card.*;
 
@@ -15,12 +14,27 @@ public class Adventurer extends ActionCard {
      * @param name le nom de la carte
      * @param cost le coût de la carte
      */
-    public Adventurer(String name, int cost) {
-        super("Aventurier", 6);
+    public Adventurer() {
+        super("Adventurer", 6);
     }
 
     @Override
     public void play(Player p) {
-
+        CardList treasureCards = new CardList();
+        CardList notTreasureCards = new CardList();
+        while (treasureCards.size() < 2) {
+            Card drawnCard = p.drawCard();
+            if (drawnCard instanceof TreasureCard){
+                treasureCards.add(drawnCard);
+            } else {
+                notTreasureCards.add(drawnCard);
+            }
+        }
+        for (Card card : treasureCards){
+            p.placeCardOnHand(card);
+        }
+        for (Card card : notTreasureCards){
+            p.placeCardInDiscard(card);
+        }
     }
 }
