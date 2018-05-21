@@ -12,7 +12,6 @@ public class Estate extends VictoryCard {
 
 	@Override
 	public void play(Player p) {
-
 	}
 
 	public int victoryValue(Player p) {

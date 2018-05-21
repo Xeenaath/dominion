@@ -3,14 +3,16 @@ package dominion;
 import java.util.*;
 
 import dominion.card.*;
+import dominion.card.common.Copper;
+import dominion.card.common.Estate;
 
 /**
  * Un joueur de Dominion
  */
 
 public class Player {
-    private final int NUMBER_OF_ESTATE_CARDS =7;
-    private final int NUMBER_OF_COPPER_CARDS = 3;
+    private final int NUMBER_OF_ESTATE_CARDS = 3;
+    private final int NUMBER_OF_COPPER_CARDS = 7;
     /**
      * Nom du joueur
      */
@@ -89,15 +91,13 @@ public class Player {
 
     private void initializeCopperCards() {
         for (int i = 0; i < NUMBER_OF_COPPER_CARDS; i++) {
-            this.discard.add(this.game.getFromSupply("Copper"));
-            this.getGame().removeFromSupply("Copper");
+            this.discard.add(new Copper());
         }
     }
 
     private void initializeEstateCards() {
         for (int i = 0; i < NUMBER_OF_ESTATE_CARDS; i++) {
-            this.discard.add(this.game.getFromSupply("Estate"));
-            this.getGame().removeFromSupply("Estate");
+            this.discard.add(new Estate());
         }
     }
 
@@ -200,7 +200,7 @@ public class Player {
      */
     public int victoryPoints() {
         int victoryPts = 0;
-        for (Card card : this.totalCards()){
+        for (Card card : this.totalCards()) {
             victoryPts += card.victoryValue(this);
         }
         return victoryPts;
@@ -233,14 +233,17 @@ public class Player {
      */
     public Card drawCard() {
         if (this.draw.isEmpty()) {
-            CardList newDraw = new CardList(this.discard);
-            newDraw.shuffle();
-            this.draw = newDraw;
-            this.discard = new CardList();
+            this.draw.addAll(this.discard);
+            this.draw.shuffle();
+            this.discard.clear();
         }
-        Card drawnCard = this.draw.get(0);
-        this.draw.remove(0);
-        return drawnCard;
+        if (this.draw.size() > 0) {
+            Card drawnCard = this.draw.get(0);
+            this.draw.remove(0);
+            return drawnCard;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -305,11 +308,11 @@ public class Player {
      * Joue une carte de la main du joueur.
      *
      * @param card carte à jouer
-     *          <p>
-     *          Cette méthode ne vérifie pas que le joueur a le droit de jouer la carte,
-     *          ni même que la carte se trouve effectivement dans sa main.
-     *          La méthode retire la carte de la main du joueur, la place dans la liste
-     *          {@code inPlay} et exécute la méthode {@code play(Player p)} de la carte.
+     *             <p>
+     *             Cette méthode ne vérifie pas que le joueur a le droit de jouer la carte,
+     *             ni même que la carte se trouve effectivement dans sa main.
+     *             La méthode retire la carte de la main du joueur, la place dans la liste
+     *             {@code inPlay} et exécute la méthode {@code play(Player p)} de la carte.
      */
     public void playCard(Card card) {
         this.hand.remove(card);
@@ -332,6 +335,8 @@ public class Player {
         for (Card card : this.hand) {
             if (card.getName().equals(cardName)) {
                 card.play(this);
+                this.inPlay.add(card);
+                this.hand.remove(card);
                 break;
             }
         }
@@ -341,13 +346,13 @@ public class Player {
      * Le joueur gagne une carte.
      *
      * @param card carte à gagner (éventuellement {@code null})
-     *          <p>
-     *          Si la carte n'est pas {@code null}, elle est placée sur la défausse du
-     *          joueur. On suppose que la carte a correctement été retirée de son
-     *          emplacement précédent au préalable.
+     *             <p>
+     *             Si la carte n'est pas {@code null}, elle est placée sur la défausse du
+     *             joueur. On suppose que la carte a correctement été retirée de son
+     *             emplacement précédent au préalable.
      */
-    public void gain (Card card) {
-        if (card != null){
+    public void gain(Card card) {
+        if (card != null) {
             this.discard.add(card);
         }
     }
@@ -361,7 +366,7 @@ public class Player {
      * @return la carte qui a été ajoutée à la défausse du joueur, ou {@code
      * null} si aucune carte n'a été prise dans la réserve.
      */
-    public Card gain (String cardName) {
+    public Card gain(String cardName) {
         Card card = this.getGame().getFromSupply(cardName);
         if (card != null) {
             this.getGame().removeFromSupply(cardName);
@@ -386,12 +391,14 @@ public class Player {
      */
     public Card buyCard(String cardName) {
         Card card = this.getGame().getFromSupply(cardName);
-        if(card != null && this.buys > 0 && this.money >= card.getCost()){
+        if (card != null && this.buys > 0 && this.money >= card.getCost()) {
             this.incrementMoney(-card.getCost());
             this.buys -= 1;
             this.gain(card);
+            return card;
+        } else {
+            return null;
         }
-        return card;
     }
 
     /**
@@ -488,15 +495,15 @@ public class Player {
      *                    s'il a au moins une carte Action en main, mais la méthode peut quand
      *                    même renvoyer {@code ""} s'il n'a aucune carte Action en main) :
      *                    <pre>
-     *                                                          {@code
-     *                                                          CardList choices = new CardList();
-     *                                                          for (Card c: p.cardsInHand()) {
-     *                                                            if (c.getTypes().contains(CardType.Action)) {
-     *                                                              choices.add(c);
-     *                                                            }
-     *                                                          }
-     *                                                          String input = p.chooseCard("Choose an Action card.", choices, false);
-     *                                                          </pre>
+     *                                                                                                                                                                            {@code
+     *                                                                                                                                                                            CardList choices = new CardList();
+     *                                                                                                                                                                            for (Card c: p.cardsInHand()) {
+     *                                                                                                                                                                              if (c.getTypes().contains(CardType.Action)) {
+     *                                                                                                                                                                                choices.add(c);
+     *                                                                                                                                                                              }
+     *                                                                                                                                                                            }
+     *                                                                                                                                                                            String input = p.chooseCard("Choose an Action card.", choices, false);
+     *                                                                                                                                                                            </pre>
      */
     public String chooseCard(String instruction, CardList choices, boolean canPass) {
         // liste de noms de cartes
@@ -564,6 +571,39 @@ public class Player {
      * du joueur
      */
     public void playTurn() {
-        //TODO playturn
+        startTurn();
+        while (this.actions > 0) {
+            String cardName = chooseCard(
+                    "Nombre d'actions disponibles :" + this.actions + "\nchoississez une carte action (vide pour passer):",
+                    this.getActionCards(),
+                    true
+            );
+            if (!cardName.equals("")) {
+                this.playCard(cardName);
+                this.incrementActions(-1);
+            } else {
+                this.actions = 0;
+            }
+        }
+        for (Card treasureCard : getTreasureCards()){
+            System.out.println ("Carte \""+ treasureCard.getName() + "\" jouée automatiquement");
+            this.playCard(treasureCard);
+        }
+        while (this.buys > 0) {
+            String cardName = chooseCard(
+                    "Nombre d'achats disponibles :" + this.buys + "\nchoississez une carte à acheter (vide pour passer):",
+                    this.game.availableSupplyCards(),
+                    true
+            );
+            if (!cardName.equals("")){
+                Card boughtCard = this.buyCard(cardName);
+                if (boughtCard != null) {
+                    this.incrementBuys(-1);
+                }else {
+                    System.out.println("Achat impossible");
+                }
+            }
+        }
+        endTurn();
     }
 }
