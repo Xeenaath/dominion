@@ -22,5 +22,15 @@ public class Militia extends AttackCard {
 
     @Override
     public void play(Player p) {
+        p.incrementMoney(2);
+        for (int i = 0; i < p.getGame().numberOfPlayers(); i++) {
+            Player player = p.getGame().getPlayer(i);
+            if (player != p) {
+                while (player.cardsInHand().size() > 3) {
+                    String answer = player.chooseCard("choississez une carte à défausser :", player.cardsInHand(), false);
+                    player.discardFromHand(answer);
+                }
+            }
+        }
     }
 }

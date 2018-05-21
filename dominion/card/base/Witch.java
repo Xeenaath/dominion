@@ -22,6 +22,9 @@ public class Witch extends AttackCard {
 
     @Override
     public void play(Player p) {
-
+        p.draw(2);
+        for (Player otherplayer : p.getGame().otherPlayers(p)){
+            otherplayer.gain("Curse");
+        }
     }
 }

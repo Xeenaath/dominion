@@ -581,6 +581,14 @@ public class Player {
         }
     }
 
+    public void placeCardOnHand (String cardName){
+        Card card = this.getGame().getFromSupply(cardName);
+        if (card != null) {
+            this.getGame().removeFromSupply(cardName);
+            this.hand.add(card);
+        }
+    }
+
 
     /**
      * Exécute le tour d'un joueur

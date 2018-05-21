@@ -73,6 +73,7 @@ public abstract class Test {
 			}
 		} catch (Exception e) {
 			// exception levée
+			e.printStackTrace();
 			this.results.append("[ERREUR]\n");
 			this.nb_error += 1;
 		}

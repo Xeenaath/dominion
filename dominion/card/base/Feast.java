@@ -22,6 +22,15 @@ public class Feast extends ActionCard {
 
     @Override
     public void play(Player p) {
+        p.trashFromHand("Feast");
+        boolean done = false;
+        while (!done){
+            String chosenCard = p.chooseCard("Choississez une carte qui vaut moins de 6 pièces :", p.getGame().availableSupplyCards(),false);
+            if (p.getGame().getFromSupply(chosenCard).getCost() <=5) {
+                p.gain(chosenCard);
+                done = true;
+            }
+        }
 
     }
 }

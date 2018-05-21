@@ -22,6 +22,12 @@ public class Moneylender extends ActionCard {
 
     @Override
     public void play(Player p) {
-
+        for (Card card : p.cardsInHand()){
+            if (card.getName().equals("Copper")){
+                p.trashFromHand(card.getName());
+                p.incrementMoney(3);
+                break;
+            }
+        }
     }
 }

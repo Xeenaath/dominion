@@ -22,6 +22,16 @@ public class Remodel extends ActionCard {
 
     @Override
     public void play(Player p) {
-
+        String chosenCardToTrash = p.chooseCard("choisissez la carte à écarter :", p.cardsInHand(), false);
+        int remodelValue = p.cardsInHand().getCard(chosenCardToTrash).getCost()+2;
+        p.trashFromHand(chosenCardToTrash);
+        boolean done = false;
+        while (!done){
+            String chosenCardToBuy = p.chooseCard("choississez une carte à acheter :", p.getGame().availableSupplyCards(),false);
+            if (remodelValue >= p.getGame().availableSupplyCards().getCard(chosenCardToBuy).getCost()){
+                p.gain(chosenCardToBuy);
+                done = true;
+            }
+        }
     }
 }

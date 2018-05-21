@@ -213,21 +213,21 @@ public class TestCards2 extends Test {
 	}
 
 	public void run() {
-		/*this.runTest("Cellar", TestCards2::testCellar);
+		this.runTest("Cellar", TestCards2::testCellar);
 		this.runTest("Chapel", TestCards2::testChapel);
 		this.runTest("Chancellor (non)", TestCards2::testChancellorNo);
 		this.runTest("Chancellor (oui)", TestCards2::testChancellorYes);
-		this.runTest("Workshop", TestCards2::testWorkshop);*/
+		this.runTest("Workshop", TestCards2::testWorkshop);
 		this.runTest("Bureaucrat", TestCards2::testBureaucrat);
-		/*this.runTest("Feast", TestCards2::testFeast);
+		this.runTest("Feast", TestCards2::testFeast);
 		this.runTest("Militia", TestCards2::testMilitia);
 		this.runTest("Moneylender (avec Copper)", TestCards2::testMoneylenderWithCopper);
 		this.runTest("Moneylender (sans Copper)", TestCards2::testMoneylenderNoCopper);
 		this.runTest("Remodel", TestCards2::testRemodel);
 		this.runTest("Council Room", TestCards2::testCouncilRoom);
 		this.runTest("Mine", TestCards2::testMine);
-		this.runTest("Witch", TestCards2::testWitch);*/
-	}/**/
+		this.runTest("Witch", TestCards2::testWitch);
+	}
 
 	public static void main(String[] args) {
 		TestCards2 t = new TestCards2();

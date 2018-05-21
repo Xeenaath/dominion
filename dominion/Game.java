@@ -75,7 +75,6 @@ public class Game {
         this.supplyStacks = new ArrayList<CardList>();// à faire avec actions + cartes à gauche
 
 
-
         CardList gold = new CardList();
         CardList silver = new CardList();
         CardList copper = new CardList();
@@ -232,6 +231,20 @@ public class Game {
         return cartesDispo;
     }
 
+    public CardList availableTreasureSupplyCards() {
+        CardList cartesDispo = new CardList();
+        for (CardList cardList : this.supplyStacks) {
+            if (cardList.size() > 0) {
+                Card card = cardList.get(0);
+                if (card instanceof TreasureCard) {
+                    cartesDispo.add(cardList.get(0));
+                }
+            }
+        }
+        return cartesDispo;
+
+    }
+
     /**
      * Renvoie une représentation de l'état de la partie sous forme d'une chaîne
      * de caractères.
@@ -371,7 +384,7 @@ public class Game {
         return this.scanner.nextLine();
     }
 
-    public void trashCard (Card card) {
+    public void trashCard(Card card) {
         this.trashedCards.add(card);
     }
 }
